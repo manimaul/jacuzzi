@@ -7,15 +7,15 @@ Jacuzzi is built with [Rust](https://www.rust-lang.org/) on top of [Actix Web](h
 
 Run with [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 ```bash
-cargo run -- sample/
+TLS_DIR="$(pwd)/self_signed_cert" cargo run -- sample/
 ```
 
 Run with Docker
 ```bash
-docker run -p 8088:8088 manimaul/jacuzzi /var/www/sample 
+docker run -p 8443:8443 manimaul/jacuzzi:0.1.1 /var/www/sample 
 ```
 
 Build with Docker
 ```bash
-docker build -t manimaul/jacuzzi .
+./build_container_image.sh
 ```

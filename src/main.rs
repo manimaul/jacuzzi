@@ -4,6 +4,7 @@ use actix_files::NamedFile;
 use std::path::{Path, PathBuf};
 use std::env;
 use std::fs;
+use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 #[macro_use]extern crate lazy_static;
 #[macro_use]extern crate log;
 
@@ -55,11 +56,33 @@ async fn main() -> std::io::Result<()> {
     }
     env_logger::init();
     check_server_root_path();
-    HttpServer::new(|| App::new()
+    let server = HttpServer::new(|| App::new()
         .wrap(Logger::default())
         .wrap(Logger::new("%a %{User-Agent}i"))
-        .route("/{filename:.*}", web::get().to(index)))
-        .bind("0:8088")?
-        .run()
-        .await
+        .route("/{filename:.*}", web::get().to(index)));
+
+    match env::var("TLS_DIR").ok() {
+        Some(tls_dir) => {
+            let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+            let key = Path::new(&tls_dir).join("key.pem");
+            let cert = Path::new(&tls_dir).join("cert.pem");
+            info!("using TLS key: {:?}", &key);
+            info!("using TLS cert: {:?}", &cert);
+            builder
+                .set_private_key_file(key, SslFiletype::PEM)
+                .expect("TLS key error");
+            builder.set_certificate_chain_file(cert)
+                .expect("TLS cert error");
+            server
+                .bind_openssl("0:8443", builder)?
+                .run()
+                .await
+        }
+        None => {
+            info!("TLS is not configured! Set env variable TLS_DIR=<path to cert.pem and key.pem> to use TLS.");
+            server.bind("0:8088")?
+                .run()
+                .await
+        }
+    }
 }
