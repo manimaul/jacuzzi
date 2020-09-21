@@ -10,6 +10,16 @@ Run with [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.ht
 TLS_DIR="$(pwd)/self_signed_cert" cargo run -- sample/
 ```
 
+Install with Cargo
+```bash
+cargo install --path . 
+```
+
+Run (After installing 😀)
+```
+TLS_DIR="$(pwd)/self_signed_cert" jacuzzi sample/
+```
+
 Run with Docker
 ```bash
 docker run -p 8443:8443 manimaul/jacuzzi:0.1.1 /var/www/sample 

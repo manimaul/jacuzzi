@@ -2,6 +2,14 @@
 name = "jacuzzi"
 version = "0.1.1"
 authors = ["William Kamp <manimaul@gmail.com>"]
+license = "Apache-2.0"
+repository = "https://github.com/manimaul/jacuzzi/"
+keywords = ["http", "http2", "spa"]
+categories = ["web-programming::http-server"]
+publish = true
+readme = "README.md"
+description = "Jacuzzi is a simple (http & http2) web server for serving SPA (Single Page Applications)."
+
 edition = "2018"
 
 [dependencies]
