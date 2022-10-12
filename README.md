@@ -1,11 +1,11 @@
 # Jacuzzi (SPA Web Server)
 
 Jacuzzi is a simple (http & http2) web server for serving SPA (Single Page Applications).
-Jacuzzi is built with [Rust](https://www.rust-lang.org/) on top of [Actix Web](https://actix.rs/).
+Jacuzzi is built with [Rust](https://www.rust-lang.org/) on top of [Warp](https://crates.io/crates/warp).
 
 ![Image of a jacuzzi](sample/images/tub.jpg)
 
-### Why is Jacuzzi good for SPA (Single Page Applications)
+### Why is Jacuzzi good for Serving SPA (Single Page Applications)
 Jacuzzi is configured to return the `index.html` file for any GET request that would normally return a 404 (not found). 
 You can point Jacuzzi at a directory with `index.html` in it's root and it will serve all content `inside` that directory 
 normally. Any unknown GET request path that would normally 404 will instead 200 with the content of `index.html`. 
@@ -33,7 +33,7 @@ TLS_DIR="$(pwd)/self_signed_cert" jacuzzi sample/
 
 Run with Docker
 ```bash
-docker run -p 8443:8443 manimaul/jacuzzi:0.1.1 /var/www/sample 
+docker run -p 8443:8443 manimaul/jacuzzi:0.2.1 /var/www/sample 
 ```
 
 Build with Docker

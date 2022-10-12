@@ -6,6 +6,8 @@ set -e # fail on commands that return non-zero exit codes
 
 version=$(cargo metadata --format-version 1 | jq -r '.packages[] | select(.name=="jacuzzi") | .version')
 echo "building image: manimaul/jacuzzi:${version}"
+# cargo install cross
+cross build --target=x86_64-unknown-linux-musl --release
 docker build -t "manimaul/jacuzzi:${version}" .
 docker tag "manimaul/jacuzzi:${version}" "manimaul/jacuzzi:latest"
 
